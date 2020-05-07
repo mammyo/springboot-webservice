@@ -1,11 +1,14 @@
 package springboot.web;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import lombok.RequiredArgsConstructor;
+import springboot.config.auth.dto.SessionUser;
 import springboot.service.PostsService;
 import springboot.web.dto.PostsResponseDto;
 
@@ -13,10 +16,18 @@ import springboot.web.dto.PostsResponseDto;
 @Controller
 public class IndexController {
 	private final PostsService postsService;
+	private final HttpSession httpSession;
 	
 	@GetMapping("/")
 	public String index(Model model) {
 		model.addAttribute("posts", postsService.findAllDesc());
+		// 로그인한 사용자(세션 유무)이면 userName을 템플릿으로 전달
+				SessionUser user = (SessionUser)httpSession.getAttribute("user");
+				if (user != null) {
+					model.addAttribute("LoginUserName", user.getName());
+					//System.out.println("1");
+				}
+				
 		return "index";    
 	}
 

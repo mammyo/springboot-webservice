@@ -30,6 +30,11 @@ public class OAuthAttributes {
 	// registrationId : 소셜 로그인(google, naver, facebook ...) 구분을 위한 용도
 	public static OAuthAttributes of(String registrationId, 
 			String userNameAttributeName, Map<String, Object> attributes) {
+		
+		// 네이버인 경우
+				if ("naver".contentEquals(registrationId)) {
+					return ofNaver("id", attributes);
+				}
 		return ofGoogle(userNameAttributeName, attributes);
 	}
 	
@@ -42,13 +47,26 @@ public class OAuthAttributes {
 				.nameAttributeKey(userNameAttributeName)
 				.build();
 	}
+	public static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+		
+		Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+		
+		return OAuthAttributes.builder()
+				.name((String)response.get("name"))
+				.email((String)response.get("email"))
+				.picture((String)response.get("profileImage"))
+				.attributes(response)
+				.nameAttributeKey(userNameAttributeName)
+				.build();
+	}
+
 	
 	public User toEntity() {
 		return User.builder()
 				.name(this.name)
 				.email(this.email)
 				.picture(this.picture)
-				.role(Role.GUEST)
+				.role(Role.USER)
 				.build();
 	}
 }
