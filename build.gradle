@@ -30,6 +30,7 @@ dependencies {
     
     
     annotationProcessor 'org.projectlombok:lombok'
+    compile 'org.mariadb.jdbc:mariadb-java-client'
     
 
 		//exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
