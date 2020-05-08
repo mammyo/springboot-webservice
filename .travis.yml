@@ -39,13 +39,10 @@ deploy:
       key: springboot-webservice.zip
       bundle_type: zip
       application: springboot-webservice     # AWS 콘솔에서 등록한 CodeDeploy 애플리케이션
-      deployment_group: springboot-webservice-group             #  CodeDeploy 배포 그룹
+      deployment_group: springboot-webservice-gruop             #  CodeDeploy 배포 그룹
       region: ap-southeast-1
       wait-until-deployed: true 
       
-      
-      
-
 notification:
     email:
         recipients:
